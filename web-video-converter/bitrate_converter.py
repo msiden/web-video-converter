@@ -1,4 +1,8 @@
 import ffmpeg
+from copy import copy
+
+
+FILE_NAME_SUFFIX = "({}bps).mp4"
 
 
 class BitRateConverter(object):
@@ -7,36 +11,39 @@ class BitRateConverter(object):
         self.__queue = set()
         self.__bitrate = 8
 
-    def set_bitrate(self, new_bitrate: int) -> int:
-        assert isinstance(new_bitrate, int), "Bitrate must be an integer value"
-        return self.get_bitrate()
-
-    def get_bitrate(self) -> int:
-        return self.__bitrate
-
-    def add_to_queue(self, items: str) -> list:
-        items = items.split(",")
+    def add_to_queue(self, items: list) -> None:
         self.__queue.update(items)
-        return self.get_queue()
 
     def get_queue(self) -> list:
         return list(self.__queue)
 
-    def empty_queue(self) -> list:
+    def clear_queue(self) -> None:
         self.__queue.clear()
-        return self.get_queue()
 
-    def process_queue(self):
-        pass
+    def remove_from_queue(self, item: str) -> None:
+        self.__queue.remove(item)
 
-    def process_item(self, file_name):
-        suffix = "_(bitrate_{}).mp4".format(self.__bitrate)
-        was_processed = True
-        output_file = file_name[:file_name.rfind(".")] + suffix
-        stream = ffmpeg.input(file_name)
-        stream = ffmpeg.output(stream, output_file, video_bitrate=self.__bitrate)
+    def set_bitrate(self, new_bitrate: int) -> None:
+        self.__bitrate = new_bitrate
+
+    def get_bitrate(self) -> str:
+        return f"{self.__bitrate}M"
+
+    def process_queue(self) -> None:
+        queue = copy(self.get_queue())
+        for file_ in queue:
+            success = self.process_item(file_)
+            if success:
+                self.remove_from_queue(file_)
+
+    def process_item(self, path: str) -> bool:
+        output_file = path[:path.rfind(".")] + FILE_NAME_SUFFIX.format(self.get_bitrate())
+        stream = ffmpeg.input(path)
+        stream = ffmpeg.output(stream, output_file, video_bitrate=self.get_bitrate())
         try:
             ffmpeg.run(stream, quiet=True)
+            return True
         except ffmpeg.Error:
-            was_processed = False
-        return was_processed
+            return False
+
+
