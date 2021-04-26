@@ -1,10 +1,22 @@
-from fastapi import FastAPI
-from bitrate_converter import BitRateConverter
-from schemas import Items, BitRate
+from fastapi import FastAPI, Request
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
+from video_converter.bitrate_converter import BitRateConverter
+from video_converter.schemas import Items, BitRate
 
 
-app = FastAPI()
 br_converter = BitRateConverter()
+app = FastAPI()
+app.mount("/static", StaticFiles(directory="frontend/"), name="static")
+app.mount("/img", StaticFiles(directory="frontend/img/"), name="img")
+app.mount("/js", StaticFiles(directory="frontend/js/"), name="js")
+templates = Jinja2Templates(directory="frontend/")
+
+
+@app.get("/", response_class=HTMLResponse)
+async def index(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
 
 
 @app.post("/add")

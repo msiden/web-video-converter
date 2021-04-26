@@ -1,4 +1,4 @@
-from enums import VideoFileStatus
+from video_converter.enums import VideoFileStatus
 
 
 FILE_NAME_SUFFIX = "({}bps).mp4"

@@ -1,5 +1,5 @@
 import ffmpeg
-from pool import *
+from video_converter.pool import *
 
 
 class BitRateConverter(object):
