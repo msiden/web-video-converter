@@ -1,9 +1,11 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, File, UploadFile
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
+from typing import List
 from video_converter.bitrate_converter import BitRateConverter
 from video_converter.schemas import Items, BitRate
+from video_converter.file_manager import *
 
 
 br_converter = BitRateConverter()
@@ -17,6 +19,12 @@ templates = Jinja2Templates(directory="frontend/")
 @app.get("/", response_class=HTMLResponse)
 async def index(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
+
+
+@app.post("/upload")
+async def upload_files(files: List[UploadFile] = File(...)):
+    save_files(files)
+    #return {"filenames": [file.filename for file in files]}
 
 
 @app.post("/add")
