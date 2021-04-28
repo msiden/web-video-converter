@@ -5,7 +5,10 @@ from fastapi.templating import Jinja2Templates
 from typing import List
 from video_converter.bitrate_converter import BitRateConverter
 from video_converter.schemas import Items, BitRate
-from video_converter.file_manager import *
+
+# TODO:
+# Separate class for the actual conversion
+# Should not have to wait for all uploads to finish before conversion can start
 
 
 br_converter = BitRateConverter()
@@ -22,9 +25,8 @@ async def index(request: Request):
 
 
 @app.post("/upload")
-async def upload_files(files: List[UploadFile] = File(...)):
-    save_files(files)
-    #return {"filenames": [file.filename for file in files]}
+async def upload_files(files: List[UploadFile] = File(...)) -> None:
+    br_converter.upload_files(files)
 
 
 @app.post("/add")

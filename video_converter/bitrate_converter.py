@@ -1,11 +1,13 @@
 import ffmpeg
 from video_converter.pool import *
+from file_manager import FileManager
 
 
 class BitRateConverter(object):
 
     def __init__(self):
         self.__bitrate = 8
+        self.file_manager = FileManager()
         self.pool = Pool()
         self.queue = self.pool.queue
         self.in_progress = self.pool.in_progress
@@ -35,6 +37,10 @@ class BitRateConverter(object):
 
     def get_bitrate(self) -> str:
         return f"{self.__bitrate}M"
+
+    def upload_files(self, files: list) -> None:
+        file_names = self.file_manager.save_files_from_upload(files)
+        self.add_to_queue(file_names)
 
     def process_queue(self) -> None:
         for item in self.queue.content():

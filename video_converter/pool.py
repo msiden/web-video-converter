@@ -1,7 +1,5 @@
 from video_converter.enums import VideoFileStatus
-
-
-FILE_NAME_SUFFIX = "({}bps).mp4"
+from video_converter.constants import *
 
 
 class VideoFile(object):
@@ -9,7 +7,7 @@ class VideoFile(object):
     def __init__(self, path: str):
         self.status = VideoFileStatus.IN_QUEUE
         self.path = path
-        self.output = path[:path.rfind(".")] + FILE_NAME_SUFFIX
+        self.output = COMPLETED_DIRECTORY + path[:path.rfind(".")] + FILE_NAME_SUFFIX
 
     def is_in_queue(self) -> bool:
         return self.status == VideoFileStatus.IN_QUEUE

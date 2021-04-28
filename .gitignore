@@ -128,5 +128,8 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+# Temp directory
+/temp
+
 # Dev stuff
 dev.py
