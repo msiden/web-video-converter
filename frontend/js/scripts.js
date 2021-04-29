@@ -1,21 +1,16 @@
 var request = new XMLHttpRequest()
 
-// https://developer.mozilla.org/en-US/docs/Web/API/File_System_Access_API
-
 function Add () {
     request.open("POST", "http://127.0.0.1:8000/add", true)
     request.setRequestHeader("accept", "application/json")
     request.setRequestHeader("Content-Type", "application/json")
     var newFilesFromElement = document.getElementById("newFilesToQueue").files;
-    console.log(newFilesFromElement)
     var file;
     var newFiles = [];
     for (var i = 0; i < newFilesFromElement.length; i++) {
         file = newFilesFromElement[i];
-        console.log(file.name)
         newFiles.push(file.name);
     }
-    console.log(newFiles)
     var dict = {};
     dict["files"] = newFiles;
     var json = JSON.stringify(dict);
@@ -33,27 +28,33 @@ const pickerOpts = {
     multiple: true
     };
 
-async function getFiles() {
-    var fileHandle
-    fileHandles = await window.showOpenFilePicker(pickerOpts);
-    console.log(fileHandle)
-    for (var i = 0; i < fileHandles.length; i++) {
-        var fileData = await fileHandles[i].getFile();
-        console.log(fileData.name)
-        }
-}
-
 function upload() {
-    let videos = document.getElementById("newFilesToQueue").files;
-    let req = new XMLHttpRequest();
+    let videos = document.getElementById("filesToUpload").files[0];
     let formData = new FormData();
-    formData.append("videos", videos);
+    formData.append("files", videos);
 
-    console.log(videos)
-    console.log(formData)
+    //console.log(videos)
+    //console.log(formData);
 
-    //req.open("POST", "/upload");
-    //req.send(formData);
+    //var file;
+    //var newFiles = [];
+    //for (var i = 0; i < videos.length; i++) {
+    //    file = videos[i];
+    //    newFiles.push(file);
+    //    console.log(file)
+    //}
+    //console.log(newFiles)
+    //formData.append("files", newFiles);
+    //formData.append("files", newFiles);
+
+    request.open("POST", "http://127.0.0.1:8000/upload");
+    //request.setRequestHeader("accept", "application/json")
+    //request.setRequestHeader("Content-Type", "multipart/form-data")
+    //request.setRequestHeader("Content-Type", "multipart/undefined")
+    request.send(formData);
+    //request.send(newFiles);
+    //request.send(videos);
+
 }
 
 
