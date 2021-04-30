@@ -22,14 +22,18 @@
           <h5 class="mb-3">Thank you for using Video Converter</h5>
 
           <div>
-            <span style="">Powered by</span>
+            <span>Powered by</span>
             <img
               style="vertical-align:middle: width: 60px; height: 20px;"
               src="https://upload.wikimedia.org/wikipedia/commons/5/5f/FFmpeg_Logo_new.svg"/>
           </div>
           <label for="filesToUpload" class="form-label"></label>
-          <input class="form-control" id="filesToUpload" type="file" multiple oninput="upload()"><br>
-          <button onclick="" type="button" class="btn btn-primary">Select files</button>
+          <input class="form-control" id="filesToUpload" type="file" multiple oninput="Upload()"><br>
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="bitrate">Set bitrate (Mbps)</span>
+            <input type="text" class="form-control" id="bitrate_val" placeholder="8">
+          </div>
+
         </div>
       </div>
     </div>
