@@ -29,13 +29,23 @@ function Upload() {
 }
 
 function SetBitrate() {
-
+    var newBitrate = document.getElementById("bitrateVal").value;
+    request.open("PUT", URL + "set_bitrate");
+    request.send(JSON.stringify({"bitrate": newBitrate}));
 }
 
 function ProcessQueue() {
-
+    request.open("POST", URL + "process");
+    request.send(null);
 }
 
 function DownloadFiles() {
-
+    request.onreadystatechange = function() {
+        if (request.readyState === 4) {
+            var res = request.response;
+            console.log(res)
+        }
+    }
+    request.open("GET", URL + "download", true);
+    request.send(null);
 }

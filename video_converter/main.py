@@ -26,7 +26,7 @@ async def upload_files(files: List[UploadFile] = File(...)) -> None:
 
 
 @app.get("/download")
-def get_download_link() -> str:
+def get_download_link() -> list:
     return handler.get_download_link()
 
 

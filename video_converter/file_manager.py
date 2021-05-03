@@ -12,7 +12,7 @@ class FileManager(object):
     def __init__(self):
         self.__create_directory(UPLOADS_DIRECTORY)
         self.__create_directory(COMPLETED_DIRECTORY)
-        #atexit.register(self.delete_completed)
+        atexit.register(self.delete_completed)
         atexit.register(self.delete_uploads)
 
     @staticmethod
@@ -45,7 +45,7 @@ class FileManager(object):
 
     @staticmethod
     def get_completed_files() -> list:
-        return os.listdir(COMPLETED_DIRECTORY)
+        return [COMPLETED_DIRECTORY + f for f in os.listdir(COMPLETED_DIRECTORY)] + [COMPLETED_DIRECTORY + "test_file.zip"]
 
     def delete_uploads(self) -> None:
         self.__delete_all_files_in_directory(UPLOADS_DIRECTORY)
@@ -56,4 +56,4 @@ class FileManager(object):
     def zip_completed_files(self) -> None:
         with ZipFile(ZIP_FILE, "w") as zipfile:
             for file in self.get_completed_files():
-                zipfile.write(file)
+                zipfile.write(COMPLETED_DIRECTORY + file)

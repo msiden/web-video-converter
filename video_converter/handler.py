@@ -51,5 +51,5 @@ class Handler(object):
             self.pool.update_item_status(item, passed=passed)
         self.file_manager.zip_completed_files()
 
-    def get_download_link(self):
+    def get_download_link(self) -> list:
         return self.file_manager.get_completed_files()
