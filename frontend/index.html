@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <title>Video Converter</title>
+    <link rel="icon" href="img/logo-small.png" type="image/x-icon"/>
+  </head>
+  <body>
+
+      <script src="js/scripts.js"></script>
+
+      <div class="container">
+      <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+        <div class="text-center">
+          <img
+            class="mb-4"
+            src="img/logo.png"
+            style="width: 250px; height: 70px;"
+          />
+          <h5 class="mb-3">Thank you for using Video (bitrate) Converter</h5>
+
+          <div>
+            <span>Powered by</span>
+            <img
+              style="vertical-align:middle: width: 60px; height: 20px;"
+              src="https://upload.wikimedia.org/wikipedia/commons/5/5f/FFmpeg_Logo_new.svg"/><br><br>
+          </div>
+
+          <div class="input-group mb-3">
+            <span class="input-group-text">Set bitrate (Mbps)</span>
+            <input type="number" class="form-control" value=8 onchange="SetBitrate()" id="bitrateVal">
+          </div>
+
+          <div>
+            <label for="filesToUpload" class="form-label"></label>
+            <input class="form-control" id="filesToUpload" type="file" multiple oninput="Upload()"><br>
+          </div>
+
+          <p id="statusText"></p>
+          <button class="btn btn-primary" type="submit" id="actionButton" style="display:none;">Process files</button><br><br>
+
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>
