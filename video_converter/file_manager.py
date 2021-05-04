@@ -44,8 +44,8 @@ class FileManager(object):
         return os.listdir(UPLOADS_DIRECTORY)
 
     @staticmethod
-    def get_completed_files() -> list:
-        return [COMPLETED_DIRECTORY + f for f in os.listdir(COMPLETED_DIRECTORY)] + [COMPLETED_DIRECTORY + "test_file.zip"]
+    def get_completed_files() -> List[str]:
+        return [COMPLETED_DIRECTORY + f for f in os.listdir(COMPLETED_DIRECTORY)]
 
     def delete_uploads(self) -> None:
         self.__delete_all_files_in_directory(UPLOADS_DIRECTORY)
@@ -56,4 +56,6 @@ class FileManager(object):
     def zip_completed_files(self) -> None:
         with ZipFile(ZIP_FILE, "w") as zipfile:
             for file in self.get_completed_files():
-                zipfile.write(COMPLETED_DIRECTORY + file)
+                if file.endswith(".zip"):
+                    continue
+                zipfile.write(file)

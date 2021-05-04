@@ -19,25 +19,28 @@
             src="img/logo.png"
             style="width: 250px; height: 70px;"
           />
-          <h5 class="mb-3">Thank you for using Video Converter</h5>
+          <h5 class="mb-3">Thank you for using Video (bitrate) Converter</h5>
 
           <div>
             <span>Powered by</span>
             <img
               style="vertical-align:middle: width: 60px; height: 20px;"
-              src="https://upload.wikimedia.org/wikipedia/commons/5/5f/FFmpeg_Logo_new.svg"/>
+              src="https://upload.wikimedia.org/wikipedia/commons/5/5f/FFmpeg_Logo_new.svg"/><br><br>
           </div>
+
+          <div class="input-group mb-3">
+            <span class="input-group-text">Set bitrate (Mbps)</span>
+            <input type="number" class="form-control" value=8 onchange="SetBitrate()" id="bitrateVal">
+          </div>
+
           <div>
             <label for="filesToUpload" class="form-label"></label>
             <input class="form-control" id="filesToUpload" type="file" multiple oninput="Upload()"><br>
           </div>
-          <div class="input-group mb-3">
-            <span class="input-group-text">Set bitrate (Mbps)</span>
-            <input type="number" class="form-control" value=8 onchange="SetBitrate()" id="bitrateVal"><br>
-          </div>
-          <button class="btn btn-primary" type="submit" id="processFiles" onclick="ProcessQueue()">Process files</button>
-          <p id="one">Processing...</p>
-          <button class="btn btn-primary" type="submit" id="downloadFiles" onclick="DownloadFiles()">Download</button>
+
+          <p id="statusText"></p>
+          <button class="btn btn-primary" type="submit" id="actionButton" style="display:none;">Process files</button><br><br>
+
         </div>
       </div>
     </div>

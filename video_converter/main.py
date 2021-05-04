@@ -5,6 +5,7 @@ from fastapi.templating import Jinja2Templates
 from typing import List
 from video_converter.handler import Handler
 from video_converter.schemas import Items, BitRate
+from video_converter.constants import *
 
 
 handler = Handler()
@@ -12,21 +13,27 @@ app = FastAPI()
 app.mount("/static", StaticFiles(directory="frontend/"), name="static")
 app.mount("/img", StaticFiles(directory="frontend/img/"), name="img")
 app.mount("/js", StaticFiles(directory="frontend/js/"), name="js")
+app.mount("/completed", StaticFiles(directory="completed/"), name="completed")
 templates = Jinja2Templates(directory="frontend/")
 
 
 @app.get("/", response_class=HTMLResponse)
-async def index(request: Request):
+def index(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
 
 @app.post("/upload")
-async def upload_files(files: List[UploadFile] = File(...)) -> None:
+def upload_files(files: List[UploadFile] = File(...)) -> None:
     handler.upload_files(files)
 
 
 @app.get("/download")
-def get_download_link() -> list:
+def get_download_link() -> str:
+    return HOME_URL + ZIP_FILE
+
+
+@app.get("/completed_files")
+def get_completed_files() -> list:
     return handler.get_download_link()
 
 
