@@ -1,7 +1,8 @@
-const URL = "http://127.0.0.1:8000/"
+URL = window.location.href
 const LINK = URL + "completed/converted_files.zip"
 var request = new XMLHttpRequest()
 var res
+
 
 function Add () {
     request.open("POST", URL + "add", true)
