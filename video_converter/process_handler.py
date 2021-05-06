@@ -3,7 +3,7 @@ from video_converter.file_manager import FileManager
 from video_converter.bitrate_converter import BitRateConverter
 
 
-class Handler(object):
+class ProcessHandler(object):
 
     def __init__(self):
         self.__bitrate = 8
