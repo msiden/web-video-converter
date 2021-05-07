@@ -1,7 +1,13 @@
 from video_converter.config import *
 
-UPLOADS_DIRECTORY = "uploads/"
-COMPLETED_DIRECTORY = "completed/"
-FILE_NAME_SUFFIX = "({}bps).mp4"
-ZIP_FILE = COMPLETED_DIRECTORY + "converted_files.zip"
+FILES_ROOT = "user_files/"
+UPLOADS = "uploads/"
+COMPLETED = "completed/"
+USER_ROOT = FILES_ROOT + "{}/"
+UPLOADS_DIRECTORY = USER_ROOT + UPLOADS
+COMPLETED_DIRECTORY = USER_ROOT + COMPLETED
+FILE_NAME_SUFFIX = FILES_ROOT + "({}bps).mp4"
+ZIP_FILE = COMPLETED_DIRECTORY + "/converted_files.zip"
 HOME_URL = LOCAL_URL if DEV_MODE else PUBLIC_URL
+SESSION_DURATION = 60 #3600
+SESSION_DAEMON_INTERVAL = 10

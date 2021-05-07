@@ -7,7 +7,7 @@ class VideoFile(object):
     def __init__(self, path: str):
         self.status = VideoFileStatus.IN_QUEUE
         self.path = path
-        self.output = path[:path.rfind(".")].replace(UPLOADS_DIRECTORY, COMPLETED_DIRECTORY) + FILE_NAME_SUFFIX
+        self.output = path[:path.rfind(".")].replace(UPLOADS, COMPLETED) + FILE_NAME_SUFFIX
 
     def is_in_queue(self) -> bool:
         return self.status == VideoFileStatus.IN_QUEUE

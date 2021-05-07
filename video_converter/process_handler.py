@@ -5,15 +5,16 @@ from video_converter.bitrate_converter import BitRateConverter
 
 class ProcessHandler(object):
 
-    def __init__(self):
+    def __init__(self, token: str):
         self.__bitrate = 8
         self.br_converter = BitRateConverter()
-        self.file_manager = FileManager()
+        self.file_manager = FileManager(token)
         self.pool = Pool()
         self.queue = self.pool.queue
         self.in_progress = self.pool.in_progress
         self.done_items = self.pool.done
         self.failed_items = self.pool.failed
+        self.token = token
 
     def add_to_queue(self, items: list or str) -> None:
         self.queue.add(items)

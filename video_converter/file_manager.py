@@ -1,36 +1,29 @@
 import shutil
-import os
 import atexit
 from zipfile import ZipFile
 from fastapi import UploadFile
 from typing import List
 from video_converter.constants import *
+from video_converter.utils import *
 
 
 class FileManager(object):
 
-    def __init__(self):
-        self.__create_directory(UPLOADS_DIRECTORY)
-        self.__create_directory(COMPLETED_DIRECTORY)
+    def __init__(self, token):
+        self.token = token
+        self.UPLOADS_DIRECTORY = UPLOADS_DIRECTORY.format(token)
+        self.COMPLETED_DIRECTORY = COMPLETED_DIRECTORY.format(token)
+        self.ZIP_FILE = ZIP_FILE.format(token)
+        create_directory(self.UPLOADS_DIRECTORY)
+        create_directory(self.COMPLETED_DIRECTORY)
         atexit.register(self.delete_completed)
         atexit.register(self.delete_uploads)
 
-    @staticmethod
-    def __save_uploadfile(file: UploadFile) -> str:
-        file_name = UPLOADS_DIRECTORY + file.filename
+    def __save_uploadfile(self, file: UploadFile) -> str:
+        file_name = self.UPLOADS_DIRECTORY + file.filename
         with open(file_name, "w+b") as f:
             shutil.copyfileobj(file.file, f)
         return file_name
-
-    @staticmethod
-    def __create_directory(path):
-        if not os.path.exists(path):
-            os.mkdir(path)
-
-    @staticmethod
-    def __delete_all_files_in_directory(directory: str) -> None:
-        for file in os.listdir(directory):
-            os.remove(directory + file)
 
     def save_files_from_upload(self, files: List[UploadFile]) -> list:
         file_names = []
@@ -39,22 +32,20 @@ class FileManager(object):
             file_names.append(file_name)
         return file_names
 
-    @staticmethod
-    def get_uploads() -> list:
-        return os.listdir(UPLOADS_DIRECTORY)
+    def get_uploads(self) -> list:
+        return os.listdir(self.UPLOADS_DIRECTORY)
 
-    @staticmethod
-    def get_completed_files() -> List[str]:
-        return [COMPLETED_DIRECTORY + f for f in os.listdir(COMPLETED_DIRECTORY)]
+    def get_completed_files(self) -> List[str]:
+        return [self.COMPLETED_DIRECTORY + f for f in os.listdir(self.COMPLETED_DIRECTORY)]
 
     def delete_uploads(self) -> None:
-        self.__delete_all_files_in_directory(UPLOADS_DIRECTORY)
+        delete_directory(self.UPLOADS_DIRECTORY)
 
     def delete_completed(self) -> None:
-        self.__delete_all_files_in_directory(COMPLETED_DIRECTORY)
+        delete_directory(self.COMPLETED_DIRECTORY)
 
     def zip_completed_files(self) -> None:
-        with ZipFile(ZIP_FILE, "w") as zipfile:
+        with ZipFile(self.ZIP_FILE, "w") as zipfile:
             for file in self.get_completed_files():
                 if file.endswith(".zip"):
                     continue
