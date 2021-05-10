@@ -1,5 +1,4 @@
 import shutil
-import atexit
 from zipfile import ZipFile
 from fastapi import UploadFile
 from typing import List
@@ -13,11 +12,10 @@ class FileManager(object):
         self.token = token
         self.UPLOADS_DIRECTORY = UPLOADS_DIRECTORY.format(token)
         self.COMPLETED_DIRECTORY = COMPLETED_DIRECTORY.format(token)
+        self.USER_DIRECTORY = USER_ROOT.format(token)
         self.ZIP_FILE = ZIP_FILE.format(token)
         create_directory(self.UPLOADS_DIRECTORY)
         create_directory(self.COMPLETED_DIRECTORY)
-        atexit.register(self.delete_completed)
-        atexit.register(self.delete_uploads)
 
     def __save_uploadfile(self, file: UploadFile) -> str:
         file_name = self.UPLOADS_DIRECTORY + file.filename
@@ -38,11 +36,11 @@ class FileManager(object):
     def get_completed_files(self) -> List[str]:
         return [self.COMPLETED_DIRECTORY + f for f in os.listdir(self.COMPLETED_DIRECTORY)]
 
+    def delete_user_files(self) -> None:
+        delete_directory(self.USER_DIRECTORY)
+
     def delete_uploads(self) -> None:
         delete_directory(self.UPLOADS_DIRECTORY)
-
-    def delete_completed(self) -> None:
-        delete_directory(self.COMPLETED_DIRECTORY)
 
     def zip_completed_files(self) -> None:
         with ZipFile(self.ZIP_FILE, "w") as zipfile:

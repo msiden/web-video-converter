@@ -8,6 +8,7 @@ class BitRateConverter(object):
     def process_item(item: VideoFile, bitrate: str) -> bool:
         passed = True
         output_file = item.output.format(bitrate)
+        print("Processing", item.path)
         stream = ffmpeg.input(item.path)
         stream = ffmpeg.output(stream, output_file, video_bitrate=bitrate)
         try:

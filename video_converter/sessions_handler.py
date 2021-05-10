@@ -1,6 +1,7 @@
 import uuid
 import time
-from fastapi import HTTPException, status
+import atexit
+from fastapi import HTTPException, status, Request
 from video_converter.process_handler import ProcessHandler
 from video_converter.utils import *
 from video_converter.constants import *
@@ -10,6 +11,7 @@ class SessionsHandler(object):
 
     def __init__(self):
         self.sessions = {}
+        atexit.register(delete_directory, directory=FILES_ROOT)
 
     def new(self) -> str:
         token = self.get_token()
@@ -22,15 +24,18 @@ class SessionsHandler(object):
         return token
 
     def delete(self, token: str) -> None:
+        self.call(token=token).file_manager.delete_user_files()
         del self.sessions[token]
 
     @staticmethod
     def get_token() -> str:
         return str(uuid.uuid4())
 
-    def call(self, token: str) -> ProcessHandler:
+    def call(self, request: Request = None, token: str = None) -> ProcessHandler:
+        if request:
+            token = request.headers.get("cookie")
         if token not in self.sessions:
-            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Session expired")
         return self.sessions.get(token).get("handler")
 
     def daemon(self) -> None:
