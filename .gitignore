@@ -129,9 +129,7 @@ dmypy.json
 .pyre/
 
 # Temp directories
-/temp
-/uploads
-/completed
+/user_files
 
 # Dev stuff
 dev.py

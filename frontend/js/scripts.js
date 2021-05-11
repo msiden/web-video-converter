@@ -1,25 +1,10 @@
-URL = window.location.href
-const LINK = URL + "completed/converted_files.zip"
+const COOKIE = document.cookie.replace("uuid=", "")
+const URL = window.location.href
+const USER_FILES = URL + "user_files/" + COOKIE
+const LINK = USER_FILES + "/completed/converted_files.zip"
 var request = new XMLHttpRequest()
 var res
 
-
-function Add () {
-    request.open("POST", URL + "add", true)
-    request.setRequestHeader("accept", "application/json")
-    request.setRequestHeader("Content-Type", "application/json")
-    var newFilesFromElement = document.getElementById("newFilesToQueue").files;
-    var file;
-    var newFiles = [];
-    for (var i = 0; i < newFilesFromElement.length; i++) {
-        file = newFilesFromElement[i];
-        newFiles.push(file.name);
-    }
-    var dict = {};
-    dict["files"] = newFiles;
-    var json = JSON.stringify(dict);
-    request.send(json)
-}
 
 function Upload() {
     document.getElementById("statusText").innerHTML = "Uploading files...";
