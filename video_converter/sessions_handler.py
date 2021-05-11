@@ -8,6 +8,8 @@ from video_converter.constants import *
 
 
 class SessionsHandler(object):
+    """Class for handling user sessions. Returns a unique instance of the process handler for each user connecting
+    to the service"""
 
     def __init__(self):
         self.sessions = {}
@@ -32,6 +34,7 @@ class SessionsHandler(object):
         return str(uuid.uuid4())
 
     def call(self, request: Request = None, token: str = None) -> ProcessHandler:
+        """Verify that the user has a valid session and route API calls to the process handler"""
         if request:
             token = request.headers.get("cookie")
         if token not in self.sessions:
@@ -39,6 +42,7 @@ class SessionsHandler(object):
         return self.sessions.get(token).get("handler")
 
     def daemon(self) -> None:
+        """Continuously check for expired sessions and delete them"""
         while True:
             now = time.time()
             sessions = {

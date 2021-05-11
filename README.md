@@ -1,2 +1,2 @@
 # web-video-converter
-Video bit-rate converter as a Web service
+The online video bit-rate converter. Written in Python 3.8 and utilizing ffmpeg (https://www.ffmpeg.org/).

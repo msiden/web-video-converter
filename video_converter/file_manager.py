@@ -7,6 +7,7 @@ from video_converter.utils import *
 
 
 class FileManager(object):
+    """Manages read and write operations for files and directories"""
 
     def __init__(self, token):
         self.token = token

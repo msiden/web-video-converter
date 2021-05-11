@@ -3,6 +3,7 @@ from video_converter.pool import VideoFile
 
 
 class BitRateConverter(object):
+    """Converts the bitrate of video files"""
 
     @staticmethod
     def process_item(item: VideoFile, bitrate: str) -> bool:

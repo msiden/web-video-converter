@@ -3,6 +3,7 @@ from video_converter.constants import *
 
 
 class VideoFile(object):
+    """Describes the name, path and status of a video file"""
 
     def __init__(self, path: str):
         self.status = VideoFileStatus.IN_QUEUE
@@ -29,6 +30,7 @@ class VideoFile(object):
 
 
 class Queue(object):
+    """Contains a group of video files that all have the same status"""
 
     def __init__(self):
         self.__items = set()
@@ -54,6 +56,7 @@ class Queue(object):
 
 
 class Pool(object):
+    """A wrapper for several instances of the Queue class representing all video files regardless of status"""
 
     def __init__(self):
         self.queue = Queue()
@@ -62,6 +65,7 @@ class Pool(object):
         self.failed = Queue()
 
     def update_item_status(self, item: VideoFile, passed: bool = True) -> None:
+        """Change the status of a video file as it progresses from queue to in_progress to done states"""
 
         if item.is_in_queue():
             self.queue.remove(item)
@@ -76,4 +80,3 @@ class Pool(object):
             self.done.add(item)
         elif item.failed():
             self.failed.add(item)
-
