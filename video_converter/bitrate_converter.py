@@ -1,5 +1,9 @@
 import ffmpeg
+import logging
 from video_converter.pool import VideoFile
+
+
+logging.basicConfig(level=logging.INFO)
 
 
 class BitRateConverter(object):
@@ -9,7 +13,7 @@ class BitRateConverter(object):
     def process_item(item: VideoFile, bitrate: str) -> bool:
         passed = True
         output_file = item.output.format(bitrate)
-        print("Processing", item.path)
+        logging.info(f"Processing {item.path}")
         stream = ffmpeg.input(item.path)
         stream = ffmpeg.output(stream, output_file, video_bitrate=bitrate)
         try:

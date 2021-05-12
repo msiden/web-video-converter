@@ -7,7 +7,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="Web Video Converter",
-    version="0.0.1",
+    version="1.0.1",
     author="Martin Sidén",
     author_email="martin.siden@live.se",
     description="A simple Web service for converting the bit-rate of video files",
