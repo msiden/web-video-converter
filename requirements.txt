@@ -3,3 +3,4 @@ ffmpeg-python
 setuptools~=56.0.0
 pydantic~=1.8.1
 boto3
+aiofiles
