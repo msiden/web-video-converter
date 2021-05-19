@@ -36,7 +36,8 @@ class SessionsHandler(object):
     def call(self, request: Request = None, token: str = None) -> ProcessHandler:
         """Verify that the user has a valid session and route API calls to the process handler"""
         if request:
-            token = request.headers.get("cookie")
+            cookie = request.headers.get("cookie")
+            token = get_token_from_cookie(cookie)
         if token not in self.sessions:
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Session expired")
         return self.sessions.get(token).get("handler")
