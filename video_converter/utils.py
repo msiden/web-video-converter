@@ -18,3 +18,11 @@ def delete_directory(directory: str) -> None:
             os.remove(item)
     os.rmdir(directory)
 
+
+def get_token_from_cookie(cookie: str) -> str:
+    tokens = cookie.split("; ")
+    token = None
+    for token in tokens:
+        if token.startswith("uuid"):
+            break
+    return token
